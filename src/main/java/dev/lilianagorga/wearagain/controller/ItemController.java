@@ -1,70 +1,64 @@
 package dev.lilianagorga.wearagain.controller;
 
 import dev.lilianagorga.wearagain.model.Item;
-import dev.lilianagorga.wearagain.repository.ItemRepository;
+import dev.lilianagorga.wearagain.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/items")
 public class ItemController {
 
-  private final ItemRepository itemRepository;
+  private final ItemService itemService;
 
   @Autowired
-  public ItemController(ItemRepository itemRepository) {
-    this.itemRepository = itemRepository;
+  public ItemController(ItemService itemService) {
+    this.itemService = itemService;
   }
 
   @PostMapping
-  public Item createItem(@RequestBody Item item) {
-    return itemRepository.save(item);
+  public ResponseEntity<Item> createItem(@RequestBody Item item) {
+    Item createdItem = itemService.createItem(item);
+    return ResponseEntity.ok(createdItem);
   }
 
   @GetMapping
-  public List<Item> getAllItems() {
-    return itemRepository.findAll();
+  public ResponseEntity<List<Item>> getAllItems() {
+    List<Item> items = itemService.getAllItems();
+    return ResponseEntity.ok(items);
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<Item> getItemById(@PathVariable String id) {
-    return itemRepository.findById(id)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+    Optional<Item> item = itemService.getItemById(id);
+    return item.map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<Item> updateItem(@PathVariable String id, @RequestBody Item itemDetails) {
-    return itemRepository.findById(id)
-            .map(existingItem -> {
-              existingItem.setInsertDate(itemDetails.getInsertDate());
-              existingItem.setType(itemDetails.getType());
-              existingItem.setBrand(itemDetails.getBrand());
-              existingItem.setSize(itemDetails.getSize());
-              existingItem.setPrice(itemDetails.getPrice());
-              existingItem.setAvailable(itemDetails.getAvailable());
-              Item updatedItem = itemRepository.save(existingItem);
-              return ResponseEntity.ok(updatedItem);
-            })
-            .orElse(ResponseEntity.notFound().build());
+    Optional<Item> updatedItem = itemService.updateItem(id, itemDetails);
+    return updatedItem.map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<?> deleteItem(@PathVariable String id) {
-    return itemRepository.findById(id)
-            .map(item -> {
-              itemRepository.delete(item);
-              return ResponseEntity.ok().build();
-            })
-            .orElse(ResponseEntity.notFound().build());
+    Optional<Item> item = itemService.deleteItem(id);
+    if (item.isPresent()) {
+      return ResponseEntity.ok().build();
+    } else {
+      return ResponseEntity.notFound().build();
+    }
   }
 
   @GetMapping("/search")
   public ResponseEntity<List<Item>> findByTypeAndBrand(@RequestParam String type, @RequestParam String brand) {
-    List<Item> items = itemRepository.findByTypeAndBrand(type, brand);
+    List<Item> items = itemService.findByTypeAndBrand(type, brand);
     if (items.isEmpty()) {
       return ResponseEntity.notFound().build();
     } else {
@@ -73,13 +67,14 @@ public class ItemController {
   }
 
   @GetMapping("/available")
-  public List<Item> findAvailableItems() {
-    return itemRepository.findByAvailableTrue();
+  public ResponseEntity<List<Item>> findAvailableItems() {
+    List<Item> items = itemService.findAvailableItems();
+    return ResponseEntity.ok(items);
   }
 
   @GetMapping("/cheaper-than")
   public ResponseEntity<List<Item>> findItemsCheaperThan(@RequestParam("price") double price) {
-    List<Item> items = itemRepository.findItemsCheaperThan(price);
+    List<Item> items = itemService.findItemsCheaperThan(price);
     if (items.isEmpty()) {
       return ResponseEntity.notFound().build();
     } else {
@@ -89,7 +84,7 @@ public class ItemController {
 
   @GetMapping("/type/{type}")
   public ResponseEntity<List<Item>> findByType(@PathVariable String type) {
-    List<Item> items = itemRepository.findByType(type);
+    List<Item> items = itemService.findByType(type);
     if (items.isEmpty()) {
       return ResponseEntity.notFound().build();
     } else {
@@ -97,4 +92,3 @@ public class ItemController {
     }
   }
 }
-
