@@ -1,8 +1,9 @@
-package dev.lilianagorga.wearagain.controller;
+package dev.lilianagorga.wearagain.controller.web;
 
+import dev.lilianagorga.wearagain.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,7 +25,13 @@ public class HomeController {
 
   @RequestMapping("user")
   @ResponseBody
-  public Principal user(@AuthenticationPrincipal UserDetails principal) {
-    return (Principal) principal;
+  public Object user(@AuthenticationPrincipal OAuth2User oauth2User, @AuthenticationPrincipal User user) {
+    if (oauth2User != null) {
+      return oauth2User;
+    } else if (user != null) {
+      return user;
+    } else {
+      return "No user authenticated";
+    }
   }
 }

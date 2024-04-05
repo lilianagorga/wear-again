@@ -7,6 +7,7 @@ import dev.lilianagorga.wearagain.repository.ItemRepository;
 import dev.lilianagorga.wearagain.repository.SaleRepository;
 import dev.lilianagorga.wearagain.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,14 +25,16 @@ public class DataInitializer implements CommandLineRunner {
   private final UserRepository userRepository;
   private final ItemRepository itemRepository;
   private final SaleRepository saleRepository;
+  private final PasswordEncoder passwordEncoder;
 
 
   public DataInitializer(UserRepository userRepository,
                          ItemRepository itemRepository,
-                         SaleRepository saleRepository) {
+                         SaleRepository saleRepository, PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.itemRepository = itemRepository;
     this.saleRepository = saleRepository;
+    this.passwordEncoder = passwordEncoder;
   }
 
   @Override
@@ -58,7 +61,10 @@ public class DataInitializer implements CommandLineRunner {
                 fields[2],
                 LocalDate.parse(fields[3], DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                 fields[4],
-                fields[5]
+                fields[5],
+                fields[6],
+                fields[7],
+                passwordEncoder.encode(fields[8])
         );
         users.add(user);
       }

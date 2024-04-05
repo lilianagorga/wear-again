@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Items</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    </head>
+    <body>
+      <div th:replace="~{fragments/fragments :: header}"></div>
+      <div class="items-container">
+        <ul class="item-wrapper">
+          <li th:each="item : ${items}" class="item">
+            <div class="item-image">
+              <img th:src="@{'/img/items/' + ${item.id} + '-image.webp'}" alt="Item Image" />
+            </div>
+            <div class="item-details">
+                <h3 class="item-type-and-brand" th:text="${item.brand} + ' ' + ${item.type}">Brand - Type</h3>
+                <span class="item-price" th:text="${item.price} + ' €'">Price</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div th:replace="~{fragments/fragments :: footer}"></div>
+    </body>
+</html>
