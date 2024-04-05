@@ -21,4 +21,8 @@ public class User {
   private String address;
   @Indexed(unique = true)
   private String documentId;
+  @Indexed(unique = true)
+  private String email;
+  private String username;
+  private String password;
 }

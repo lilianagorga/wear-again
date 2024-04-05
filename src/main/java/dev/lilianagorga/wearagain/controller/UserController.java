@@ -3,10 +3,12 @@ package dev.lilianagorga.wearagain.controller;
 import dev.lilianagorga.wearagain.model.User;
 import dev.lilianagorga.wearagain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -38,7 +40,7 @@ public class UserController {
 
   @PutMapping("/{id}")
   public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User userDetails) {
-    return userService.updateUser(id, userDetails)
+    return userService.updateUser(userDetails)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
   }
@@ -73,5 +75,35 @@ public class UserController {
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
   }
+
+  @GetMapping("/email/{email}")
+  public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
+    return userService.getUserByEmail(email)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
+  }
+
+  @PatchMapping("/{id}/email")
+  public ResponseEntity<?> updateUserEmail(@PathVariable String id, @RequestBody Map<String, String> update) {
+    String email = update.get("email");
+    if (email == null || email.isEmpty()) {
+      return ResponseEntity.badRequest().body("Email address is required");
+    }
+
+    return userService.updateUserEmail(id, email)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
+  }
+
+  @PostMapping("/register")
+  public ResponseEntity<User> registerNewUser(@RequestBody User user) {
+    try {
+      User registeredUser = userService.registerNewUser(user);
+      return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
+    } catch (Exception e) {
+      return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+  }
+
 }
 
