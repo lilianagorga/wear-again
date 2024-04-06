@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+  </head>
+  <body>
+    <div th:replace="~{fragments/fragments :: header}"></div>
+    <div class="registration-container">
+      <h1>Complete Your Registration</h1>
+      <p th:if="${registrationError}" th:text="${registrationError}" class="error-message"></p>
+      <form th:action="@{/register}" method="post">
+        <table class="register-table">
+          <tr>
+            <td><label for="name" class="register-label">Name:</label></td>
+            <td><input type="text" id="name" name="name" class="register-input" required /></td>
+          </tr>
+          <tr>
+            <td><label for="surname" class="register-label">Surname:</label></td>
+            <td><input type="text" id="surname" name="surname" class="register-input" required /></td>
+          </tr>
+          <tr>
+            <td><label for="birthdate" class="register-label">Birthdate:</label></td>
+            <td><input type="date" id="birthdate" name="birthdate" class="register-input" required /></td>
+          </tr>
+          <tr>
+            <td><label for="address" class="register-label">Address:</label></td>
+            <td><input type="text" id="address" name="address" class="register-input" required /></td>
+          </tr>
+          <tr>
+            <td><label for="documentId" class="register-label">Document ID:</label></td>
+            <td><input type="text" id="documentId" name="documentId" class="register-input" required /></td>
+          </tr>
+          <tr>
+            <td><label for="email" class="register-label">Email:</label></td>
+            <td><input type="email" id="email" name="email" class="register-input" required /></td>
+          </tr>
+          <tr>
+            <td><label for="username" class="register-label">Username:</label></td>
+            <td><input type="text" id="username" name="username" class="register-input" required /></td>
+          </tr>
+          <tr>
+            <td><label for="password" class="register-label">Password:</label></td>
+            <td><input type="password" id="password" name="password" class="register-input" required /></td>
+          </tr>
+          <tr>
+            <td><label for="confirmPassword" class="register-label">Confirm Password:</label></td>
+            <td><input type="password" id="confirmPassword" name="confirmPassword" class="register-input" required /></td>
+          </tr>
+          <tr>
+            <td colspan="2"><input type="submit" value="Register" class="register-submit" /></td>
+          </tr>
+        </table>
+      </form>
+    </div>
+    <div th:replace="~{fragments/fragments :: footer}"></div>
+</body>
+</html>
