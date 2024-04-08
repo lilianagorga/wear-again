@@ -1,14 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-</head>
-<body>
-<h1 th:text="'Welcome to the home page!'"></h1>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Logout"/>
-</form>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Wear Again - Sustainable Fashion</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <div th:replace="~{fragments/fragments :: header}"></div>
+        <div class="home-page-main-content">
+            <div class="image-container">
+                <img th:src="@{'/img/sustainibility/homepage-img.jpg'}" alt="Recycled">
+            </div>
+            <div class="text-section">
+                <h2><i class="fa-solid fa-paw"></i>Welcome to the Future of Fashion: Ethical, Sustainable, Timeless.</h2>
+                <p>At the heart of our mission lies a simple yet powerful principle: fashion can be both beautiful and benevolent.
+                    In the age of mass consumption and industrial production, we've chosen to take a step back and reflect on the
+                    impact that fashion has on our planet and its people.
+                </p>
+
+                <h2><i class="fa-solid fa-paw"></i>Why Sustainable Fashion?</h2>
+                <p>Sustainable fashion isn't just about using eco-friendly materials but embraces a holistic vision that considers
+                    every aspect of the production and distribution chain. From reducing waste and pollution to promoting fair labor
+                    practices and conserving natural resources, sustainable fashion seeks to reconcile aesthetics with ethics.
+                </p>
+
+                <h2><i class="fa-solid fa-paw"></i>Conscious Consumption</h2>
+                <p> We promote an approach to fashion consumption that prioritizes quality over quantity. We encourage our customers
+                    to make mindful choices, investing in versatile and timeless pieces that transcend seasons.
+                </p>
+
+                <h2><i class="fa-solid fa-paw"></i>Join the Change</h2>
+                <p>Your choice to support sustainable fashion is a powerful act of change. Together, we can redesign the landscape
+                    of fashion, creating a future where beauty and sustainability merge harmoniously. Explore our selection and
+                    discover how each purchase can contribute to a positive impact on the world.
+                </p>
+            </div>
+        </div>
+        <div th:replace="~{fragments/fragments :: footer}"></div>
+        <script src="https://kit.fontawesome.com/49e07ab8ca.js" crossorigin="anonymous"></script>
+    </body>
 </html>

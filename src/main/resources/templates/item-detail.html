@@ -6,7 +6,28 @@
   </head>
   <body>
     <div th:replace="~{fragments/fragments :: header}"></div>
-
+    <div class="single-item-container">
+      <div class="single-item">
+        <div class="item-image">
+          <img th:src="@{'/img/items/' + ${item.id} + '-image.webp'}" alt="Item Image" />
+        </div>
+        <div class="item-details">
+          <h2 class="item-type-and-brand" th:text="${item.brand} + ' ' + ${item.type}">Brand - Type</h2>
+          <span class="item-price" th:text="${item.price} + ' €'">Price</span>
+          <p class="item-description">
+            <span th:if="${item.type} == 'Sneakers'">Comfortable and stylish sneakers perfect for everyday wear.</span>
+            <span th:if="${item.type} == 'Sweater'">A cozy sweater to keep you warm during the colder months.</span>
+            <span th:if="${item.type} == 'Swimsuit'">A trendy swimsuit for your summer beach days.</span>
+            <span th:if="${item.type} == 'Jeans'">Classic jeans that pair well with any outfit.</span>
+            <span th:if="${item.type} == 'T-shirt'">A casual t-shirt that's a staple in any wardrobe.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="item-sale-details">
+      <a th:href="@{'/sales/add/' + ${item.id}}" class="add-to-sale">Add to sale</a>
+    </div>
     <div th:replace="~{fragments/fragments :: footer}"></div>
+    <script src="https://kit.fontawesome.com/49e07ab8ca.js" crossorigin="anonymous"></script>
   </body>
 </html>

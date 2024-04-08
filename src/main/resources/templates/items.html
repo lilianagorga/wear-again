@@ -9,16 +9,19 @@
       <div class="items-container">
         <ul class="item-wrapper">
           <li th:each="item : ${items}" class="item">
-            <div class="item-image">
-              <img th:src="@{'/img/items/' + ${item.id} + '-image.webp'}" alt="Item Image" />
-            </div>
-            <div class="item-details">
-                <h3 class="item-type-and-brand" th:text="${item.brand} + ' ' + ${item.type}">Brand - Type</h3>
-                <span class="item-price" th:text="${item.price} + ' €'">Price</span>
-            </div>
+            <a th:href="@{'/items/' + ${item.id}}" class="item-link">
+              <div class="item-image">
+                <img th:src="@{'/img/items/' + ${item.id} + '-image.webp'}" alt="Item Image" />
+              </div>
+              <div class="item-details">
+                  <h3 class="item-type-and-brand" th:text="${item.brand} + ' ' + ${item.type}">Brand - Type</h3>
+                  <span class="item-price" th:text="${item.price} + ' €'">Price</span>
+              </div>
+            </a>
           </li>
         </ul>
       </div>
       <div th:replace="~{fragments/fragments :: footer}"></div>
+      <script src="https://kit.fontawesome.com/49e07ab8ca.js" crossorigin="anonymous"></script>
     </body>
 </html>

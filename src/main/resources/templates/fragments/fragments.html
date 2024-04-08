@@ -1,28 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Fragment Container</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+  <meta charset="UTF-8">
+  <title>Fragment Container</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
 <div th:fragment="header">
-    <header>
-        <h1>Wear Again</h1>
-        <nav>
-            <ul>
-                <li><a th:href="@{/}">Home</a></li>
-                <li><a th:href="@{/items}">Items</a></li>
-                <!-- Altri link di navigazione se necessario -->
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <h1>Wear Again</h1>
+    <nav>
+      <ul>
+        <li><a th:href="@{/}">Home</a></li>
+        <li><a th:href="@{/items}">Items</a></li>
+        <li><a th:href="@{/sales}">Sales</a></li>
+      </ul>
+    </nav>
+    <div class="user-controls">
+      <a th:href="@{/profile}" class="profile-icon">
+        <i class="fa fa-user" aria-hidden="true"></i>
+      </a>
+      <a th:href="@{/logout}" class="logout-icon">
+        <i class="fa fa-sign-out" aria-hidden="true"></i>
+      </a>
+    </div>
+  </header>
 </div>
 
 <div th:fragment="footer">
-    <footer>
-        <p>&copy; 2024 Wear Again. All rights reserved.</p>
-    </footer>
+  <footer>
+    <p>&copy; 2024 Wear Again. All rights reserved.</p>
+  </footer>
 </div>
+<script src="https://kit.fontawesome.com/49e07ab8ca.js" crossorigin="anonymous"></script>
 </body>
 </html>

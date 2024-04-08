@@ -33,31 +33,6 @@ public class UserWebController {
     this.userRepository = userRepository;
   }
 
-//  @GetMapping("/profile")
-//  public String userProfile(Model model) {
-//    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//    if (authentication != null && authentication.isAuthenticated()) {
-//      String username = null;
-//
-//      if (authentication.getPrincipal() instanceof UserDetails) {
-//        username = ((UserDetails) authentication.getPrincipal()).getUsername();
-//      } else if (authentication.getPrincipal() instanceof DefaultOidcUser) {
-//        username = ((DefaultOidcUser) authentication.getPrincipal()).getEmail();
-//      }
-//
-//      if (username != null) {
-//        Optional<User> user = userRepository.findByUsername(username);
-//        if (user.isPresent()) {
-//          model.addAttribute("user", user.get());
-//          return "user-profile";
-//        } else {
-//          return "redirect:/register";
-//        }
-//      }
-//    }
-//    return "redirect:/login";
-//  }
-
   @GetMapping("/profile")
   public String userProfile(Model model) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
