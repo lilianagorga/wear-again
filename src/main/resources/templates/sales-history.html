@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <title>Sales History</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/fragments :: header}"></div>
+<div th:if="${showModal}" class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Attention</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <a href="/register" class="modal-link">Don't have a profile yet? Make it!</a>
+        <a href="/login" class="modal-link">Already have a profile? Log In!</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="sales-history-container">
+  <h1>Sales History</h1>
+  <div th:if="${not #lists.isEmpty(sales)}">
+    <table class="sales-history">
+      <thead>
+      <tr>
+        <th>ID Sale</th>
+        <th>Brand</th>
+        <th>Type</th>
+        <th>Price</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="sale, iterStat : ${sales}">
+        <td th:text="${sale.id}"></td>
+        <td th:text="${items[iterStat.index].brand}">Brand</td>
+        <td th:text="${items[iterStat.index].type}">Type</td>
+        <td th:text="${items[iterStat.index].price} + ' €'">Price</td>
+        <td>
+          <a th:href="@{'/sales/' + ${sale.id}}" th:text="'Look'">Look</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div th:if="${#lists.isEmpty(sales)}">
+    <p>No sales history available.</p>
+  </div>
+</div>
+
+<div th:replace="~{fragments/fragments :: footer}"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:src="@{/js/profile.js}"></script>
+<script src="https://kit.fontawesome.com/49e07ab8ca.js" crossorigin="anonymous"></script>
+</body>
+</html>
