@@ -6,6 +6,22 @@
   </head>
   <body>
     <div th:replace="~{fragments/fragments :: header}"></div>
+    <div class="modal" id="addSaleModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Attention</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <a href="/register" class="modal-link">Don't have a profile yet? Make it!</a>
+            <a href="/login" class="modal-link">Already have a profile? Log In!</a>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="single-item-container">
       <div class="single-item">
         <div class="item-image">
@@ -25,9 +41,13 @@
       </div>
     </div>
     <div class="item-sale-details">
-      <a th:href="@{'/sales/add/' + ${item.id}}" class="add-to-sale">Add to sale</a>
+      <button class="add-to-sale" th:data-item-id="${item.id}">
+        <i class="fas fa-shopping-cart"></i>
+      </button>
     </div>
     <div th:replace="~{fragments/fragments :: footer}"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:src="@{/js/addSale.js}"></script>
     <script src="https://kit.fontawesome.com/49e07ab8ca.js" crossorigin="anonymous"></script>
   </body>
 </html>

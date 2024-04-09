@@ -8,6 +8,7 @@ import dev.lilianagorga.wearagain.service.ItemService;
 import dev.lilianagorga.wearagain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.security.core.Authentication;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -95,6 +97,24 @@ public class SaleWebController {
     model.addAttribute("item", item);
     model.addAttribute("user", user);
     return "sale-detail";
+  }
+
+  @PostMapping("/add/{itemId}")
+  public ResponseEntity<?> addSale(@PathVariable String itemId, Authentication authentication) {
+    if (authentication == null || !(authentication.getPrincipal() instanceof UserDetails userDetails)) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
+    }
+
+    String username = userDetails.getUsername();
+
+    User user = userService.getUserByUsername(username)
+            .orElseThrow(() -> new IllegalArgumentException("User not found with username: " + username));
+    Sale sale = new Sale();
+    sale.setItemId(itemId);
+    sale.setUserId(user.getId());
+    saleService.createSale(sale);
+
+    return ResponseEntity.ok("Item added to sale successfully");
   }
 
 }

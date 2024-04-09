@@ -471,3 +471,149 @@ button#updateProfileButton:hover {
     margin-bottom: 0;
     border-radius: 0.5rem;
 }
+
+.sales-history-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.sales-history {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.sales-history th, .sales-history td {
+    text-align: left;
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.sales-history th {
+    background-color: #f8f8f8;
+    color: #333;
+    font-weight: bold;
+}
+
+.sales-history tr:hover {
+    background-color: #f1f1f1;
+}
+
+.sales-history td a {
+    text-decoration: none;
+    color: #e44d26;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.sales-history td a:hover {
+    color: #333;
+}
+
+
+@media (max-width: 768px) {
+    .sales-history-container {
+        width: 90%;
+        margin: 20px auto;
+    }
+
+    .sales-history, .sales-history thead, .sales-history tbody, .sales-history th, .sales-history td, .sales-history tr {
+        display: block;
+    }
+
+    .sales-history thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .sales-history tr { border: 1px solid #ccc; }
+
+    .sales-history td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+        text-align: right;
+    }
+
+    .sales-history td:before {
+        position: absolute;
+        top: 12px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+    }
+
+    .sales-history td:nth-of-type(1):before { content: "ID"; }
+    .sales-history td:nth-of-type(2):before { content: "Brand"; }
+    .sales-history td:nth-of-type(3):before { content: "Type"; }
+    .sales-history td:nth-of-type(4):before { content: "Price"; }
+    .sales-history td:nth-of-type(5):before { content: "Details"; }
+}
+
+.sale-details-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.sale-item-details {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.sale-details-heading {
+    color: #e44d26;
+    margin-bottom: 10px;
+}
+
+.sale-details-text {
+    color: #666;
+    line-height: 1.6;
+}
+
+.sale-details-item-image img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    margin-top: 20px;
+    border-radius: 8px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.add-to-sale {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.add-to-sale:hover {
+    background-color: #45a049;
+}
