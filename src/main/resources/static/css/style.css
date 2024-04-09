@@ -472,6 +472,24 @@ button#updateProfileButton:hover {
     border-radius: 0.5rem;
 }
 
+@media (max-width: 768px) {
+    .home-page-main-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .image-container {
+        width: 100%;
+        order: -1;
+        margin-bottom: 20px;
+    }
+
+    .text-section {
+        width: 100%;
+        padding: 20px;
+    }
+}
+
 .sales-history-container {
     max-width: 800px;
     margin: 50px auto;
