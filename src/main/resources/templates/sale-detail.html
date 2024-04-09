@@ -7,6 +7,21 @@
 <body>
 <div th:replace="~{fragments/fragments :: header}"></div>
 
+<div class="sale-details-container">
+  <div class="sale-item-details">
+    <h2 class="sale-details-heading">Your Item Details:</h2>
+    <p><strong>Brand:</strong> <span th:text="${item.brand}"></span></p>
+    <p><strong>Type:</strong> <span th:text="${item.type}"></span></p>
+    <p><strong>Size:</strong> <span th:text="${item.size}"></span></p>
+    <p><strong>Still Available:</strong> <span th:text="${item.available}"></span></p>
+    <p class="sale-details-text"><strong>Price:</strong> <span th:text="${item.price} + ' €'"></span></p>
+    <div class="sale-details-item-image" th:if="@{'/img/items/' + ${item.id} + '-image.webp'}">
+      <img th:src="@{'/img/items/' + ${sale.itemId} + '-image.webp'}" alt="Item Image" />
+    </div>
+  </div>
+</div>
+
+
 <div th:replace="~{fragments/fragments :: footer}"></div>
 <script src="https://kit.fontawesome.com/49e07ab8ca.js" crossorigin="anonymous"></script>
 </body>
