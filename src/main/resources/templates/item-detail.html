@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Item Detail</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/img/favicon.ico}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
   </head>
   <body>
@@ -38,13 +41,14 @@
             <span th:if="${item.type} == 'T-shirt'">A casual t-shirt that's a staple in any wardrobe.</span>
           </p>
         </div>
+        <div class="item-sale-details">
+          <button class="add-to-sale" th:data-item-id="${item.id}">
+            <i class="fas fa-shopping-cart"></i>
+          </button>
+        </div>
       </div>
     </div>
-    <div class="item-sale-details">
-      <button class="add-to-sale" th:data-item-id="${item.id}">
-        <i class="fas fa-shopping-cart"></i>
-      </button>
-    </div>
+
     <div th:replace="~{fragments/fragments :: footer}"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script th:src="@{/js/addSale.js}"></script>
