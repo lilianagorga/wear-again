@@ -5,6 +5,7 @@ import dev.lilianagorga.wearagain.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,4 +67,16 @@ public class ItemService {
   public List<Item> findByType(String type) {
     return itemRepository.findByType(type);
   }
+
+  public String formatItemDetails(Item item) {
+    return String.format("ID: %s, Insert Date: %s, Type: %s, Brand: %s, Size: %s, Price: %.2f, Available: %s",
+            item.getId(),
+            item.getInsertDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+            item.getType(),
+            item.getBrand(),
+            item.getSize(),
+            item.getPrice(),
+            item.getAvailable() ? "Yes" : "No");
+  }
+
 }
