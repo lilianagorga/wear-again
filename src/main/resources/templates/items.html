@@ -9,6 +9,9 @@
     </head>
     <body>
       <div th:replace="~{fragments/fragments :: header}"></div>
+      <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+        <p th:text="${errorMessage}">Error Message</p>
+      </div>
       <div class="items-container">
         <ul class="item-wrapper">
           <li th:each="item : ${items}" class="item">

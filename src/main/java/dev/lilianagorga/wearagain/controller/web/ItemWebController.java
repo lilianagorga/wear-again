@@ -31,8 +31,12 @@ public class ItemWebController {
   @GetMapping("/items/{id}")
   public String viewItemDetails(@PathVariable String id, Model model) {
     Optional<Item> item = itemService.getItemById(id);
-    model.addAttribute("item", item.orElseThrow(() -> new IllegalArgumentException("Invalid item Id:" + id)));
-    return "item-detail";
+    if (item.isPresent()) {
+      model.addAttribute("item", item.get());
+      return "item-detail";
+    } else {
+      model.addAttribute("errorMessage", "Item not found with ID: " + id);
+      return "items";
+    }
   }
-
 }
