@@ -15,6 +15,9 @@ public class WearAgainApplication {
     if (Arrays.asList(args).contains("--cli")) {
       app.setWebApplicationType(WebApplicationType.NONE);
       app.setAdditionalProfiles("cli");
+    } else if (Arrays.asList(args).contains("--test")) {
+        app.setWebApplicationType(WebApplicationType.NONE);
+        app.setAdditionalProfiles("test");
     }
     app.run(args);
   }

@@ -137,8 +137,11 @@ terminal. To use the CLI, ensure the application is built using Maven, and then 
 ```bash
 java -jar target/wear-again-0.0.1-SNAPSHOT.jar --cli
 ```
-> Note: The CLI mode requires the application to be packaged into a JAR file. The mvn package command can be used to
+> Note: 
+> - The CLI mode requires the application to be packaged into a JAR file. The mvn package command can be used to
 build the JAR file before running the above command.
+> - The --cli option is required to start the application in Command Line Interface (CLI) mode. Without specifying this 
+option, the application will default to starting in Graphical User Interface (GUI) mode.
 
 ### CLI Commands
 
