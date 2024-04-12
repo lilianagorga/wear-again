@@ -9,27 +9,24 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.Model;
 import org.springframework.http.MediaType;
-
 import java.util.Optional;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(SpringExtension.class)
+@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(UserWebController.class)
+@ActiveProfiles("test")
 public class UserWebControllerTest {
 
   @Autowired
@@ -82,26 +79,58 @@ public class UserWebControllerTest {
     verify(userService, times(1)).updateUserDTO(eq("TestUsername"), any(UserUpdateDTO.class));
   }
 
-//  @Test
-//  public void showRegistrationForm_ShouldReturnRegistrationPage() throws Exception {
-//    mockMvc.perform(get("/register"))
-//            .andExpect(status().isOk())
-//            .andExpect(view().name("register"))
-//            .andExpect(model().attributeExists("user"));
-//  }
+  @Test
+  public void showRegistrationForm_ShouldReturnRegistrationPage() throws Exception {
+    mockMvc.perform(get("/register"))
+            .andExpect(status().isOk())
+            .andExpect(view().name("register"))
+            .andExpect(model().attributeExists("user"));
+  }
 
-//  @Test
-//  public void registerUser_WhenDetailsMatch_ShouldRedirectToLogin() throws Exception {
-//    when(userService.registerNewUser(any(User.class))).thenReturn(testUser);
-//
-//    mockMvc.perform(post("/register")
-//                    .param("password", "TestPassword")
-//                    .param("confirmPassword", "TestPassword")
-//                    .flashAttr("user", testUser))
-//            .andExpect(status().is3xxRedirection())
-//            .andExpect(view().name("redirect:/login"));
-//
-//    verify(userService, times(1)).registerNewUser(any(User.class));
-//  }
+  @Test
+  public void registerUser_WhenDetailsMatch_ShouldRedirectToLogin() throws Exception {
+    when(userService.registerNewUser(any(User.class))).thenReturn(testUser);
+
+    mockMvc.perform(post("/register")
+                    .param("password", "TestPassword")
+                    .param("confirmPassword", "TestPassword")
+                    .flashAttr("user", testUser))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(view().name("redirect:/login"));
+
+    verify(userService, times(1)).registerNewUser(any(User.class));
+  }
+
+  @Test
+  public void userProfile_WhenNotAuthenticated_ShouldRedirectToLogin() throws Exception {
+    mockMvc.perform(get("/profile"))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/login"));
+  }
+
+  @Test
+  public void registerUser_PasswordMismatch_ShouldReturnRegistrationPageWithError() throws Exception {
+    mockMvc.perform(post("/register")
+                    .param("password", "TestPassword")
+                    .param("confirmPassword", "TestPassword1")
+                    .flashAttr("user", testUser))
+            .andExpect(status().isOk())
+            .andExpect(view().name("register"))
+            .andExpect(model().attributeExists("registrationError"));
+  }
+
+  @Test
+  @WithMockUser(username = "TestUsername", password = "TestPassword")
+  public void updateProfile_WhenServerException_ShouldReturnServerError() throws Exception {
+    UserUpdateDTO updateDTO = new UserUpdateDTO("updatedemail@example.com", "TestUsername", "TestPassword", "newPassword", "newPassword");
+
+    when(userService.updateUserDTO(eq("TestUsername"), any(UserUpdateDTO.class)))
+            .thenThrow(new RuntimeException("Internal server error"));
+
+    mockMvc.perform(post("/profile/update")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(new ObjectMapper().writeValueAsString(updateDTO)))
+            .andExpect(status().isInternalServerError());
+  }
 }
-

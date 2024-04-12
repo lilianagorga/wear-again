@@ -29,6 +29,7 @@ public class SecurityConfig {
   private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
   private static final String CLI_PROFILE = "cli";
+  private static final String TEST_PROFILE = "test";
 
   @Autowired
   private ApplicationContext context;
@@ -44,7 +45,8 @@ public class SecurityConfig {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    if (Arrays.asList(context.getEnvironment().getActiveProfiles()).contains(CLI_PROFILE)) {
+    String[] activeProfiles = context.getEnvironment().getActiveProfiles();
+    if (Arrays.asList(activeProfiles).contains(CLI_PROFILE) || Arrays.asList(activeProfiles).contains(TEST_PROFILE)) {
       http.authorizeHttpRequests((requests) -> requests.anyRequest().permitAll());
     } else {
             http
@@ -52,6 +54,7 @@ public class SecurityConfig {
                     .authenticationProvider(authProvider())
                     .authorizeHttpRequests((requests) -> requests
                             .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
+                            .requestMatchers("/register", "/register/**").permitAll()
                             .requestMatchers("/profile", "/profile/**").authenticated()
                             .requestMatchers("/sales", "/sales/**").authenticated()
                             .requestMatchers("/items", "/items/**").authenticated()

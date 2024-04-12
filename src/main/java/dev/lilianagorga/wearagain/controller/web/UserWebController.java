@@ -4,7 +4,6 @@ import dev.lilianagorga.wearagain.model.User;
 import dev.lilianagorga.wearagain.model.UserUpdateDTO;
 import dev.lilianagorga.wearagain.repository.UserRepository;
 import dev.lilianagorga.wearagain.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -17,12 +16,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.Optional;
 
 
 @Controller
 public class UserWebController {
+  private static final Logger log = LoggerFactory.getLogger(UserWebController.class);
 
   private final UserService userService;
   private final UserRepository userRepository;
@@ -66,10 +67,15 @@ public class UserWebController {
     if (authentication == null || !authentication.isAuthenticated()) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not authenticated");
     }
-
-    String username = ((UserDetails)authentication.getPrincipal()).getUsername();
-    User updatedUser = userService.updateUserDTO(username, updatedUserDTO)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+    User updatedUser = null;
+    try {
+      String username = ((UserDetails)authentication.getPrincipal()).getUsername();
+      updatedUser = userService.updateUserDTO(username, updatedUserDTO)
+              .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+    } catch (RuntimeException e) {
+      log.error("Error updating user profile", e);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
+    }
 
     return ResponseEntity.ok(updatedUser);
   }
