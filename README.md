@@ -190,32 +190,14 @@ To run the tests, follow these steps:
 ```bash
    mvn test
 ```
-2. **Run Integration Tests**: To set up a test database:
-
-   - **Configure a Test Database Instance**: Set up a separate instance of your database to be used exclusively for 
-   testing. This could be a different schema, a separate database, or a separate database server, depending on your 
-   environment.
-
-   - **Update Application Properties**: In your `application-test.properties` file, configure the connection details 
-   to point to your test database. For example:
-      ```properties
-      spring.datasource.url=jdbc:yourTestDbUrl
-      spring.datasource.username=testUser
-      spring.datasource.password=testPass
-      ```
-      
-   - **Update Application Properties**: Ensure that your test environment uses the test profile to load these settings.
-   This can be done by setting the Spring profile to test when running your tests.
-   ```bash
-   mvn test -Dspring.profiles.active=test
-   ```
-   - **Run Integration Tests**:
+2. **Run Integration Tests**: Integration tests are configured to automatically use an embedded database. You can run 
+them using Maven without any additional setup.
    ```bash
    mvn verify
    ```
-   - **For Specific Integration Testing Phases**:
+   - **If you want to execute only the integration tests and skip the unit tests, you can use**:
    ```bash
-   mvn integration-test
+   mvn verify -DskipUTs
    ```
 
 ### Contributing

@@ -70,6 +70,12 @@
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
     </dependency>
+    <dependency>
+      <groupId>de.flapdoodle.embed</groupId>
+      <artifactId>de.flapdoodle.embed.mongo</artifactId>
+      <version>4.12.6</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
