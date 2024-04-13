@@ -20,14 +20,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import org.springframework.core.io.ClassPathResource;
 import org.thymeleaf.util.ArrayUtils;
-
-import java.util.Optional;
-import java.util.Scanner;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
@@ -42,7 +38,6 @@ public class DataInitializer implements CommandLineRunner {
   private final UserService userService;
   private final SaleService saleService;
   private final PasswordEncoder passwordEncoder;
-
 
   public DataInitializer(UserRepository userRepository,
                          ItemRepository itemRepository,
@@ -65,11 +60,11 @@ public class DataInitializer implements CommandLineRunner {
     if (ArrayUtils.contains(args, "--cli")) {
       runCli();
     } else {
-      List<User> users = readUsersFromCsv("/users.csv");
+      List<User> users = readUsersFromCsv();
       userRepository.saveAll(users);
-      List<Item> items = readItemsFromCsv("/items.csv");
+      List<Item> items = readItemsFromCsv();
       itemRepository.saveAll(items);
-      List<Sale> sales = readSalesFromCsv("/sales.csv");
+      List<Sale> sales = readSalesFromCsv();
       saleRepository.saveAll(sales);
     }
   }
@@ -106,7 +101,6 @@ public class DataInitializer implements CommandLineRunner {
           break;
         case 6:
           System.out.println("Enter item ID to check availability:");
-          scanner.nextLine();
           String checkItemId = scanner.nextLine();
           checkItemAvailability(checkItemId);
           break;
@@ -229,9 +223,9 @@ public class DataInitializer implements CommandLineRunner {
   }
 
 
-  private List<User> readUsersFromCsv(String csvFilePath) throws IOException {
+  private List<User> readUsersFromCsv() throws IOException {
     List<User> users = new ArrayList<>();
-    try (BufferedReader br = new BufferedReader(new InputStreamReader(new ClassPathResource(csvFilePath).getInputStream()))) {
+    try (BufferedReader br = new BufferedReader(new InputStreamReader(new ClassPathResource("/users.csv").getInputStream()))) {
       String line;
       br.readLine();
       while ((line = br.readLine()) != null) {
@@ -253,9 +247,9 @@ public class DataInitializer implements CommandLineRunner {
     return users;
   }
 
-  private List<Item> readItemsFromCsv(String csvFilePath) throws IOException {
+  private List<Item> readItemsFromCsv() throws IOException {
     List<Item> items = new ArrayList<>();
-    try (BufferedReader br = new BufferedReader(new InputStreamReader(new ClassPathResource(csvFilePath).getInputStream()))) {
+    try (BufferedReader br = new BufferedReader(new InputStreamReader(new ClassPathResource("/items.csv").getInputStream()))) {
       String line;
       br.readLine();
       while ((line = br.readLine()) != null) {
@@ -276,9 +270,9 @@ public class DataInitializer implements CommandLineRunner {
     return items;
   }
 
-  private List<Sale> readSalesFromCsv(String csvFilePath) throws IOException {
+  private List<Sale> readSalesFromCsv() throws IOException {
     List<Sale> sales = new ArrayList<>();
-    try (BufferedReader br = new BufferedReader(new InputStreamReader(new ClassPathResource(csvFilePath).getInputStream()))) {
+    try (BufferedReader br = new BufferedReader(new InputStreamReader(new ClassPathResource("/sales.csv").getInputStream()))) {
       String line;
       br.readLine();
       while ((line = br.readLine()) != null) {
