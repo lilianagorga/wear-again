@@ -280,7 +280,7 @@ button#updateProfileButton:hover {
 
 .registration-container {
     max-width: 400px;
-    margin: 0 auto;
+    margin: 1rem auto 0;
     padding: 2rem;
     background: #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
