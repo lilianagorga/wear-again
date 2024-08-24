@@ -6,6 +6,7 @@ target/
 src/main/resources/application.properties
 src/main/resources/application-prod.properties
 exported_csv/
+.env
 
 ### STS ###
 .apt_generated
