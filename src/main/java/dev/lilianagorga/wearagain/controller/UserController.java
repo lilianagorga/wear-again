@@ -40,6 +40,7 @@ public class UserController {
 
   @PutMapping("/{id}")
   public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User userDetails) {
+    userDetails.setId(id);
     return userService.updateUser(userDetails)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());

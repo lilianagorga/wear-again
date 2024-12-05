@@ -46,6 +46,9 @@ public class UserService {
               existingUser.setAddress(user.getAddress());
               existingUser.setDocumentId(user.getDocumentId());
               existingUser.setEmail(user.getEmail());
+              if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+                existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+              }
               return userRepository.save(existingUser);
             });
   }

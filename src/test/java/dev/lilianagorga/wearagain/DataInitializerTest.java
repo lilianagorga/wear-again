@@ -24,14 +24,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import org.springframework.core.env.Environment;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
@@ -61,17 +59,6 @@ public class DataInitializerTest {
 
   @MockBean
   private SaleService saleService;
-
-//  @Test
-//  public void testRunOnStartup() throws Exception {
-//    String[] args = {};
-//    dataInitializer.run(args);
-//
-//    verify(userRepository, times(2)).saveAll(any());
-//    verify(itemRepository, times(2)).saveAll(any());
-//    verify(saleRepository, times(2)).saveAll(any());
-//  }
-
 
   @Test
   public void testRunCliOption1() throws Exception {
