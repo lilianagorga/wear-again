@@ -1,20 +1,27 @@
-FROM eclipse-temurin:21-jdk-alpine
+# Build stage
+FROM eclipse-temurin:23-jdk-jammy AS build
 
 WORKDIR /app
 
-RUN apk add --no-cache maven
-
 COPY mvnw .
 COPY .mvn .mvn
+RUN chmod +x mvnw
 
 COPY pom.xml .
-
 RUN ./mvnw dependency:go-offline
 
 COPY src ./src
-
 RUN ./mvnw clean package -DskipTests
+
+# Runtime stage
+FROM eclipse-temurin:23-jre-jammy
+
+WORKDIR /app
+
+COPY --from=build /app/target/wear-again-0.0.1-SNAPSHOT.jar app.jar
+
+ENV SPRING_PROFILES_ACTIVE=prod
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "target/wear-again-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
